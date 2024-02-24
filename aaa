@@ -1,0 +1,111 @@
+// Blur image
+void blur(int height, int width, RGBTRIPLE image[height][width])
+{
+    RGBTRIPLE copy[height][width];
+    RGBTRIPLE box[9];
+    int c;
+    int green_sum;
+    int red_sum;
+    int blue_sum;
+    for (int i = 0; i < height; i++) // colunn
+    {
+        for (int j = 0; j < width; j++) // row
+        {
+
+                c = 0;
+
+                green_sum = 0;
+                red_sum = 0;
+                blue_sum = 0;
+
+                box[0] = image[i][j];
+
+                blue_sum += box[0].rgbtBlue;
+                green_sum += box[0].rgbtGreen;
+                red_sum += box[0].rgbtRed;
+                c++;
+
+                if ((i - 1) >= 0)
+                {
+                    box[1] = image[i - 1][j];
+                    blue_sum += box[1].rgbtBlue;
+                    green_sum += box[1].rgbtGreen;
+                    red_sum += box[1].rgbtRed;
+                    c++;
+                }
+
+                if ((j - 1) >= 0)
+                {
+                    box[2] = image[i][j - 1];
+                    blue_sum += box[2].rgbtBlue;
+                    green_sum += box[2].rgbtGreen;
+                    red_sum += box[2].rgbtRed;
+                    c++;
+                }
+
+                if ((i + 1) < height)
+                {
+                    box[3] = image[i + 1][j];
+                    blue_sum += box[3].rgbtBlue;
+                    green_sum += box[3].rgbtGreen;
+                    red_sum += box[3].rgbtRed;
+                    c++;
+                }
+
+                if ((j + 1) < width)
+                {
+                    box[4] = image[i][j + 1];
+                    blue_sum += box[4].rgbtBlue;
+                    green_sum += box[4].rgbtGreen;
+                    red_sum += box[4].rgbtRed;
+                    c++;
+                }
+
+                if (((i + 1) < height) && ((j + 1) < width))
+                {
+                    box[5] = image[i + 1][j + 1];
+                    blue_sum += box[5].rgbtBlue;
+                    green_sum += box[5].rgbtGreen;
+                    red_sum += box[5].rgbtRed;
+                    c++;
+                }
+
+                if (((i - 1) >= 0) && ((j - 1) >= 0))
+                {
+                    box[6] = image[i - 1][j - 1];
+                    blue_sum += box[6].rgbtBlue;
+                    green_sum += box[6].rgbtGreen;
+                    red_sum += box[6].rgbtRed;
+                    c++;
+                }
+
+                if (((i + 1) < height) && ((j - 1) >= 0))
+                {
+                    box[7] = image[i + 1][j - 1];
+                    blue_sum += box[7].rgbtBlue;
+                    green_sum += box[7].rgbtGreen;
+                    red_sum += box[7].rgbtRed;
+                    c++;
+                }
+
+                if (((i - 1) >= 0) && ((j + 1) < width))
+                {
+                    box[8] = image[i - 1][j + 1];
+                    blue_sum += box[8].rgbtBlue;
+                    green_sum += box[8].rgbtGreen;
+                    red_sum += box[8].rgbtRed;
+                    c++;
+                }
+            copy[i][j].rgbtBlue = round(blue_sum / (float) c);
+            copy[i][j].rgbtRed = round(red_sum / (float) c);
+            copy[i][j].rgbtGreen = round(green_sum / (float) c);
+        }
+    }
+   for (int o = 0; o < height; o++) // colunn
+    {
+        for (int p = 0; p < width; p++) // row
+        {
+            image[o][p] = copy[o][p];
+        }
+    }
+}
